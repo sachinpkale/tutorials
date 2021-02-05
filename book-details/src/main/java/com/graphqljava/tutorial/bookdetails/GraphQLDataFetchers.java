@@ -39,15 +39,4 @@ public class GraphQLDataFetchers {
         };
     }
 
-    public DataFetcher<Map<String, String>> getBookByNameDataFetcher() {
-        return dataFetchingEnvironment -> {
-            String bookName = dataFetchingEnvironment.getArgument("name");
-            return books
-                    .stream()
-                    .filter(book -> book.get("name").equals(bookName))
-                    .findFirst()
-                    .orElse(null);
-        };
-    }
-
 }
