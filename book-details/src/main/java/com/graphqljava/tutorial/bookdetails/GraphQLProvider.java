@@ -21,28 +21,26 @@ import static graphql.schema.idl.TypeRuntimeWiring.newTypeWiring;
 @Component
 public class GraphQLProvider {
 
-
-    @Autowired
     GraphQLDataFetchers graphQLDataFetchers;
 
     private GraphQL graphQL;
 
     @PostConstruct
     public void init() throws IOException {
-        URL url = Resources.getResource("schema.graphqls");
-        String sdl = Resources.toString(url, Charsets.UTF_8);
-        GraphQLSchema graphQLSchema = buildSchema(sdl);
+        GraphQLSchema graphQLSchema = buildSchema();
         this.graphQL = GraphQL.newGraphQL(graphQLSchema).build();
     }
 
-    private GraphQLSchema buildSchema(String sdl) {
+    public static GraphQLSchema buildSchema() throws IOException {
+        URL url = Resources.getResource("schema.graphqls");
+        String sdl = Resources.toString(url, Charsets.UTF_8);
         TypeDefinitionRegistry typeRegistry = new SchemaParser().parse(sdl);
-        RuntimeWiring runtimeWiring = buildWiring();
+        RuntimeWiring runtimeWiring = buildWiring(new GraphQLDataFetchers());
         SchemaGenerator schemaGenerator = new SchemaGenerator();
         return schemaGenerator.makeExecutableSchema(typeRegistry, runtimeWiring);
     }
 
-    private RuntimeWiring buildWiring() {
+    public static RuntimeWiring buildWiring(GraphQLDataFetchers graphQLDataFetchers) {
         return RuntimeWiring.newRuntimeWiring()
                 .type(newTypeWiring("Query")
                               .dataFetcher("bookById", graphQLDataFetchers.getBookByIdDataFetcher()))
