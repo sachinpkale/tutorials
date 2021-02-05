@@ -26,6 +26,8 @@ dependencies {
     implementation 'com.graphql-java:graphql-java:11.0'
     implementation 'com.graphql-java:graphql-java-spring-boot-starter-webmvc:1.0'
     implementation 'com.google.guava:guava:26.0-jre'
+    compileOnly 'org.projectlombok:lombok:1.18.16'
+    annotationProcessor 'org.projectlombok:lombok:1.18.16'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
