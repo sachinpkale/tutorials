@@ -13,5 +13,5 @@ public class Book {
     String id;
     String name;
     Integer pageCount;
-    String author;
+    Author author;
 }
