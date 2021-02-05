@@ -4,6 +4,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
+import graphql.schema.StaticDataFetcher;
 import graphql.schema.idl.RuntimeWiring;
 import graphql.schema.idl.SchemaGenerator;
 import graphql.schema.idl.SchemaParser;
@@ -46,6 +47,8 @@ public class GraphQLProvider {
         return RuntimeWiring.newRuntimeWiring()
                 .type(newTypeWiring("Query")
                               .dataFetcher("bookById", graphQLDataFetchers.getBookByIdDataFetcher()))
+                .type(newTypeWiring("Book")
+                              .dataFetcher("pageCount", new StaticDataFetcher(100)))
                 .build();
     }
 
